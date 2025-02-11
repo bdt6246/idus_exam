@@ -66,7 +66,7 @@ public class UserService implements UserDetailsService {
   }
 
   @Transactional(readOnly = true)
-  public List<UserDto.UserOrdersListResponse> lastOrderList() {
+  public List<UserDto.UserOrdersListResponse> lastOrdersList() {
     List<User> users = userRepository.findAllOrderByOrdersDateDesc();
     return users.stream()
         .map(UserDto.UserOrdersListResponse::from)

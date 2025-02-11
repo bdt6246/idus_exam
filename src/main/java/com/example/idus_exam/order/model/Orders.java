@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Builder
@@ -20,7 +21,7 @@ public class Orders {
   private Long idx;
   private String orderNo;
   private String productName;
-  private ZonedDateTime orderDate;
+  private LocalDateTime orderDate;
 
   @ManyToOne
   @JoinColumn(name = "user_idx")

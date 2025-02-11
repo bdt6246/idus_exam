@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class OrdersDto {
@@ -16,7 +17,7 @@ public class OrdersDto {
   public static class OrdersResponse {
     private String ordersNo;
     private String productName;
-    private ZonedDateTime ordersDate;
+    private LocalDateTime ordersDate;
 
     public static OrdersResponse from(Orders orders) {
       return OrdersResponse.builder()

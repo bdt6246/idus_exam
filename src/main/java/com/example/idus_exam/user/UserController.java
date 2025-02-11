@@ -30,8 +30,8 @@ public class UserController {
 
   @Operation(summary = "주문 목록 조회")
   @GetMapping("/order")
-  public ResponseEntity<UserDto.UserOrderListResponse> orderList(Long userIdx) {
-    UserDto.UserOrderListResponse response =  userService.orderList(userIdx);
+  public ResponseEntity<UserDto.UserOrdersListResponse> ordersList(Long userIdx) {
+    UserDto.UserOrdersListResponse response =  userService.ordersList(userIdx);
     return ResponseEntity.ok(response);
   }
 
@@ -56,10 +56,10 @@ public class UserController {
     return ResponseEntity.ok(response);
   }
 
-  @GetMapping("/lastorder")
+  @GetMapping("/lastorders")
   @Operation(summary = "각 회원의 마지막 주문 정보 조회")
-  public ResponseEntity<List<UserDto.UserOrderListResponse>> lastOrderList() {
-    List<UserDto.UserOrderListResponse> responses = userService.lastOrderList();
+  public ResponseEntity<List<UserDto.UserOrdersListResponse>> lastOrderList() {
+    List<UserDto.UserOrdersListResponse> responses = userService.lastOrdersList();
     return ResponseEntity.ok(responses);
   }
 }
