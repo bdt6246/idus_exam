@@ -13,6 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT DISTINCT u FROM User u JOIN u.ordersList o ORDER BY o.orderDate DESC")
   List<User> findAllOrderByOrdersDateDesc();
 
-  List<UserDto.UserDetailResponse> findAllByUserNameContaining(String username);
-  List<UserDto.UserDetailResponse> findAllByEmailContaining(String email);
+  List<User> findAllByUserNameContaining(String username);
+  List<User> findAllByEmailContaining(String email);
 }

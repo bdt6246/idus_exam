@@ -55,14 +55,18 @@ public class UserService implements UserDetailsService {
 
   @Transactional(readOnly = true)
   public List<UserDto.UserDetailResponse> searchByName(String userName) {
-    List<UserDto.UserDetailResponse> userList = userRepository.findAllByUserNameContaining(userName);
-    return userList;
+    List<User> users = userRepository.findAllByUserNameContaining(userName);
+    return users.stream()
+        .map(user -> new UserDto.UserDetailResponse(user.getUsername(), user.getNickName(), user.getPhone(), user.getEmail(), user.getSex()))
+        .collect(Collectors.toList());
   }
 
   @Transactional(readOnly = true)
   public List<UserDto.UserDetailResponse> searchByEmail(String email) {
-    List<UserDto.UserDetailResponse> userList = userRepository.findAllByEmailContaining(email);
-    return userList;
+    List<User> users = userRepository.findAllByUserNameContaining(email);
+    return users.stream()
+        .map(user -> new UserDto.UserDetailResponse(user.getUsername(), user.getNickName(), user.getPhone(), user.getEmail(), user.getSex()))
+        .collect(Collectors.toList());
   }
 
   @Transactional(readOnly = true)

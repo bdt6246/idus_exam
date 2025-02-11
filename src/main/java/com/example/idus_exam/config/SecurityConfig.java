@@ -37,7 +37,7 @@ public class SecurityConfig {
             .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
             .requestMatchers("/login", "/user/signup", "/user/verify").permitAll()
 //            .requestMatchers("/user/list", "/user/*", "/order/list").hasRole("USER")
-            .requestMatchers("/user/list", "/user/*", "/order/list").permitAll()
+            .requestMatchers("/user/list", "/user/*").permitAll()
             .anyRequest().authenticated()
     );
 
