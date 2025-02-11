@@ -1,18 +1,4 @@
 spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USER}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-            required: true
-          auth: true
-          timeout: 5000
-
   datasource:
     master:
       jdbc-url: jdbc:mariadb://${MASTER_DB}:3306/web
@@ -36,3 +22,7 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+
+jwt:
+  secret: ${JWT_SECRET}
+  expired: ${JWT_EXPIRED}

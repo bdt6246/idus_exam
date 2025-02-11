@@ -26,7 +26,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        System.out.println("LoginFilter 실행됐다.");
+        System.out.println("LoginFilter 실행");
         UsernamePasswordAuthenticationToken authToken;
         try {
             UserDto.SignupRequest userDto  = new ObjectMapper().readValue(request.getInputStream(), UserDto.SignupRequest.class);

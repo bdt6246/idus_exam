@@ -19,6 +19,6 @@ public class SwaggerConfig {
         return new Info()
                 .title("아이디어스 프로젝트")
                 .description("아이디어스 프로젝트의 API 테스트")
-                .version("1.0.0");
+                .version("1.0.1");
     }
 }

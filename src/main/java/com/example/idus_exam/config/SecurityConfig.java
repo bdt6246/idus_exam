@@ -2,6 +2,8 @@ package com.example.idus_exam.config;
 
 import com.example.idus_exam.config.filter.JwtFilter;
 import com.example.idus_exam.config.filter.LoginFilter;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @RequiredArgsConstructor
@@ -31,19 +34,26 @@ public class SecurityConfig {
     http.csrf(AbstractHttpConfigurer::disable);
     http.httpBasic(AbstractHttpConfigurer::disable);
     http.formLogin(AbstractHttpConfigurer::disable);
+    http.sessionManagement(AbstractHttpConfigurer::disable);
 
     http.authorizeHttpRequests(
         (auth) -> auth
             .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
             .requestMatchers("/login", "/user/signup", "/user/verify").permitAll()
-            .requestMatchers("/user/list", "/user/detail", "/order/list").hasRole("USER")
-            .anyRequest().authenticated()
-    );
+//            .requestMatchers("/user/list", "/user/*", "/logout").hasRole("USER")
+            .requestMatchers("/user/list", "/user/*", "/logout").permitAll()
+            .anyRequest().authenticated());
 
-    http.sessionManagement(AbstractHttpConfigurer::disable);
+    http.logout(logout -> logout.logoutUrl("/logout")
+        .logoutSuccessHandler((request, response, authentication) -> {
+          response.setStatus(HttpServletResponse.SC_OK);
+        })
+        .invalidateHttpSession(true)
+        .deleteCookies("JSESSIONID", "ATOKEN"));
 
     http.addFilterAt(new LoginFilter(configuration.getAuthenticationManager()), UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
+
   }
 }
