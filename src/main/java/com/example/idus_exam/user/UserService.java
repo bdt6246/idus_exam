@@ -1,5 +1,7 @@
 package com.example.idus_exam.user;
 
+import com.example.idus_exam.order.model.Orders;
+import com.example.idus_exam.order.model.OrdersDto;
 import com.example.idus_exam.user.model.User;
 import com.example.idus_exam.user.model.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,7 +64,7 @@ public class UserService implements UserDetailsService {
 
   @Transactional(readOnly = true)
   public List<UserDto.UserDetailResponse> searchByEmail(String email) {
-    List<User> users = userRepository.findAllByUserNameContaining(email);
+    List<User> users = userRepository.findAllByEmailContaining(email);
     return users.stream()
         .map(user -> new UserDto.UserDetailResponse(user.getUsername(), user.getNickName(), user.getPhone(), user.getEmail(), user.getSex()))
         .collect(Collectors.toList());
@@ -71,9 +72,21 @@ public class UserService implements UserDetailsService {
 
   @Transactional(readOnly = true)
   public List<UserDto.UserOrdersListResponse> lastOrdersList() {
-    List<User> users = userRepository.findAllOrderByOrdersDateDesc();
-    return users.stream()
-        .map(UserDto.UserOrdersListResponse::from)
+    return userRepository.findAll().stream()
+        .map(user -> {
+          Orders latestOrder = user.getOrdersList().stream()
+              .max(Comparator.comparing(Orders::getOrderDate))
+              .orElse(null);
+
+          return latestOrder != null
+              ? UserDto.UserOrdersListResponse.builder()
+              .idx(user.getIdx())
+              .userName(user.getUsername())
+              .orders(Collections.singletonList(OrdersDto.OrdersResponse.from(latestOrder))) // 최신 주문만 리스트로
+              .build()
+              : null;
+        })
+        .filter(Objects::nonNull)
         .collect(Collectors.toList());
   }
 }

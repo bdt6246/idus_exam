@@ -99,32 +99,4 @@ public class UserDto {
           .build();
     }
   }
-
-//  @Getter
-//  @NoArgsConstructor
-//  @AllArgsConstructor
-//  @Builder
-//  public static class  UserPageResponse{
-//    private int page;
-//    private int size;
-//    private long totalElements;
-//    private int totalPages;
-//    private boolean hasNext;
-//    private boolean hasPrevious;
-//    private List<UserDetailResponse> users;
-//    public List<UserOrderListResponse> orders;
-//
-//    public static UserPageResponse from (Page<User> userPage) {
-//      return UserPageResponse.builder()
-//          .page(userPage.getNumber())
-//          .size(userPage.getSize())
-//          .totalElements(userPage.getTotalElements())
-//          .totalPages(userPage.getTotalPages())
-//          .hasNext(userPage.hasNext())
-//          .hasPrevious(userPage.hasPrevious())
-//          .users(userPage.stream().map(UserDetailResponse::from).collect(Collectors.toList()))
-//          .orders(userPage.stream().map(UserOrderListResponse::from).collect(Collectors.toList()))
-//          .build();
-//    }
-//  }
 }

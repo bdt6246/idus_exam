@@ -10,9 +10,6 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByUserName(String username);
-  @Query("SELECT DISTINCT u FROM User u JOIN u.ordersList o ORDER BY o.orderDate DESC")
-  List<User> findAllOrderByOrdersDateDesc();
-
   List<User> findAllByUserNameContaining(String username);
   List<User> findAllByEmailContaining(String email);
 }
