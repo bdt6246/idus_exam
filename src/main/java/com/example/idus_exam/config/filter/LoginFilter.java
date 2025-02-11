@@ -1,5 +1,8 @@
 package com.example.idus_exam.config.filter;
 
+import com.example.idus_exam.user.model.User;
+import com.example.idus_exam.user.model.UserDto;
+import com.example.idus_exam.utils.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,34 +24,33 @@ import java.time.Duration;
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
-//    @Override
-//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-//        System.out.println("LoginFilter 실행됐다.");
-//        UsernamePasswordAuthenticationToken authToken;
-//        try {
-//            MemberDto.SignupRequest MemberDto  = new ObjectMapper().readValue(request.getInputStream(), MemberDto.SignupRequest.class);
-//            authToken =
-//                    new UsernamePasswordAuthenticationToken(MemberDto.getEmail(), MemberDto.getPassword(), null);
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return authenticationManager.authenticate(authToken);
-//    }
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        System.out.println("LoginFilter 실행됐다.");
+        UsernamePasswordAuthenticationToken authToken;
+        try {
+            UserDto.SignupRequest userDto  = new ObjectMapper().readValue(request.getInputStream(), UserDto.SignupRequest.class);
+            authToken =
+                    new UsernamePasswordAuthenticationToken(userDto.getUserName(), userDto.getPassword(), null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return authenticationManager.authenticate(authToken);
+    }
 
 
-//    @Override
-//    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-//        Member Member = (Member) authResult.getPrincipal();
-//        String jwtToken = JwtUtil.generateToken(Member.getIdx(), Member.getEmail(), Member.getNickName(), Member.getRole());
-//        ResponseCookie cookie = ResponseCookie
-//                .from("ATOKEN", jwtToken)
-//                .path("/")
-//                .httpOnly(true)
-//                .secure(true)
-//                .maxAge(Duration.ofHours(1L))
-//                .build();
-//
-//        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-//    }
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        User user = (User) authResult.getPrincipal();
+        String jwtToken = JwtUtil.generateToken(user.getIdx(), user.getEmail(), user.getNickName(), user.getRole());
+        ResponseCookie cookie = ResponseCookie
+                .from("ATOKEN", jwtToken)
+                .path("/")
+                .httpOnly(true)
+                .secure(true)
+                .maxAge(Duration.ofHours(1L))
+                .build();
+
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
 }
