@@ -1,6 +1,5 @@
 package com.example.idus_exam.user.model;
 
-import com.example.idus_exam.emailverify.model.EmailVerify;
 import com.example.idus_exam.order.model.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
