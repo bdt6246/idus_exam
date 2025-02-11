@@ -48,4 +48,10 @@ public class UserService implements UserDetailsService {
     Optional<User> user = userRepository.findById(idx);
     return UserDto.UserDetailResponse.from(user.orElse(null));
   }
+
+  @Transactional(readOnly = true)
+  public UserDto.UserOrderListResponse orderList(Long userIdx) {
+    Optional<User> user = userRepository.findById(userIdx);
+    return UserDto.UserOrderListResponse.from(user.orElse(null));
+  }
 }
