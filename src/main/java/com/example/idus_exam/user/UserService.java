@@ -4,6 +4,8 @@ import com.example.idus_exam.emailverify.EmailVerifyService;
 import com.example.idus_exam.user.model.User;
 import com.example.idus_exam.user.model.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,14 +39,14 @@ public class UserService implements UserDetailsService {
   @Transactional
   public void verify(String uuid) {
     User user = emailVerifyService.verify(uuid);
-    if(user != null) {
+    if (user != null) {
       user.verify();
       userRepository.save(user);
     }
   }
 
   @Transactional(readOnly = true)
-  public UserDto.UserDetailResponse list(Long idx) {
+  public UserDto.UserDetailResponse detail(Long idx) {
     Optional<User> user = userRepository.findById(idx);
     return UserDto.UserDetailResponse.from(user.orElse(null));
   }
@@ -53,5 +55,11 @@ public class UserService implements UserDetailsService {
   public UserDto.UserOrderListResponse orderList(Long userIdx) {
     Optional<User> user = userRepository.findById(userIdx);
     return UserDto.UserOrderListResponse.from(user.orElse(null));
+  }
+
+  @Transactional(readOnly = true)
+  public UserDto.UserPageResponse list(int page, int size) {
+    Page<User> result = userRepository.findAll(PageRequest.of(page, size));
+    return UserDto.UserPageResponse.from(result);
   }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,32 @@ public class UserDto {
           .idx(user.getIdx())
           .userName(user.getUsername())
           .orders(user.getOrderList().stream().map(OrderDto.OrderResponse::from).collect(Collectors.toList()))
+          .build();
+    }
+  }
+
+  @Getter
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class  UserPageResponse{
+    private int page;
+    private int size;
+    private long totalElements;
+    private int totalPages;
+    private boolean hasNext;
+    private boolean hasPrevious;
+    public List<UserOrderListResponse> orders;
+
+    public static UserPageResponse from (Page<User> userPage) {
+      return UserPageResponse.builder()
+          .page(userPage.getNumber())
+          .size(userPage.getSize())
+          .totalElements(userPage.getTotalElements())
+          .totalPages(userPage.getTotalPages())
+          .hasNext(userPage.hasNext())
+          .hasPrevious(userPage.hasPrevious())
+          .orders(userPage.stream().map(UserOrderListResponse::from).collect(Collectors.toList()))
           .build();
     }
   }

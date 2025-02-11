@@ -27,7 +27,7 @@ public class UserController {
   @Operation(summary = "유저 상세 조회")
   @GetMapping("/{userIdx}")
   public ResponseEntity<UserDto.UserDetailResponse> detail(@PathVariable Long userIdx) {
-    UserDto.UserDetailResponse response = userService.list(userIdx);
+    UserDto.UserDetailResponse response = userService.detail(userIdx);
     return ResponseEntity.ok(response);
   }
 
@@ -38,12 +38,10 @@ public class UserController {
     return ResponseEntity.ok(response);
   }
 
-//  @GetMapping("/list")
-//  @Operation(summary = "회원 목록 조회")
-//  public ResponseEntity<UserDto.CoursePageResponse> list(int page, int size) {
-//    CourseDto.CoursePageResponse response = courseService.list(page, size);
-//
-//    return ResponseEntity.ok(response);
-//  }
-
+  @GetMapping("/list")
+  @Operation(summary = "각 회원의 마지막 주문 정보 조회")
+  public ResponseEntity<UserDto.UserPageResponse> list(int page, int size) {
+    UserDto.UserPageResponse response = userService.list(page, size);
+    return ResponseEntity.ok(response);
+  }
 }
