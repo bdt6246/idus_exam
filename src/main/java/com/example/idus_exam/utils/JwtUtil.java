@@ -1,5 +1,6 @@
 package com.example.idus_exam.utils;
 
+import com.example.idus_exam.user.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -11,25 +12,25 @@ public class JwtUtil {
     private static final String SECRET = "abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789";
     private static final int EXP = 30 * 60 * 1000;
 
-//    public static Member getMember(String token) {
-//        try {
-//            Claims claims = Jwts.parserBuilder()
-//                    .setSigningKey(SECRET)
-//                    .build()
-//                    .parseClaimsJws(token)
-//                    .getBody();
-//            return Member.builder()
-//                    .idx(claims.get("userIdx", Long.class))
-//                    .email(claims.get("userEmail", String.class))
-//                    .nickName(claims.get("userEmail", String.class))
-//                    .role(claims.get("userRole", String.class))
-//                    .build();
-//
-//        } catch (ExpiredJwtException e) {
-//            System.out.println("토큰이 만료되었습니다!");
-//            return null;
-//        }
-//    }
+    public static User getUser(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(SECRET)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            return User.builder()
+                    .idx(claims.get("userIdx", Long.class))
+                    .email(claims.get("userEmail", String.class))
+                    .nickName(claims.get("userEmail", String.class))
+                    .role(claims.get("userRole", String.class))
+                    .build();
+
+        } catch (ExpiredJwtException e) {
+            System.out.println("토큰이 만료되었습니다!");
+            return null;
+        }
+    }
 
     public static String generateToken(Long userIdx, String userEmail, String userNickName, String userRole) {
         Claims claims = Jwts.claims();

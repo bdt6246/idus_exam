@@ -1,5 +1,7 @@
 package com.example.idus_exam.config.filter;
 
+import com.example.idus_exam.user.model.User;
+import com.example.idus_exam.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -25,15 +27,15 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         }
-//        if(jwtToken != null) {
-//            Member member = JwtUtil.getMember(jwtToken);
-//            if(member != null) {
-//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-//                        new UsernamePasswordAuthenticationToken(member, null, member.getAuthorities());
-//                usernamePasswordAuthenticationToken.setDetails(member);
-//                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//            }
-//        }
+        if(jwtToken != null) {
+            User user = JwtUtil.getUser(jwtToken);
+            if(user != null) {
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                usernamePasswordAuthenticationToken.setDetails(user);
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
+        }
         filterChain.doFilter(request, response);
     }
 }
