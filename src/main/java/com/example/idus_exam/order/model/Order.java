@@ -19,11 +19,11 @@ public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idx;
+  private String oderNo;
   private String productName;
   private ZonedDateTime orderDate;
 
   @ManyToOne
   @JoinColumn(name = "user_idx")
   private User user;
-  private String uuid;
 }
