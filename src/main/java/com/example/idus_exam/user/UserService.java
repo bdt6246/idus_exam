@@ -21,13 +21,11 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private final EmailVerifyService emailVerifyService;
 
   @Transactional
   public void signup(UserDto.SignupRequest dto) {
     String encodedPassword = passwordEncoder.encode(dto.getPassword());
     User user = userRepository.save(dto.toEntity(encodedPassword));
-    emailVerifyService.signup(user.getIdx(), user.getEmail());
   }
 
   @Override
@@ -35,15 +33,6 @@ public class UserService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     Optional<User> result = userRepository.findByUserName(username);
     return result.orElse(null);
-  }
-
-  @Transactional
-  public void verify(String uuid) {
-    User user = emailVerifyService.verify(uuid);
-    if (user != null) {
-      user.verify();
-      userRepository.save(user);
-    }
   }
 
   @Transactional(readOnly = true)

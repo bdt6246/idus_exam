@@ -31,9 +31,7 @@ public class User implements UserDetails {
   private String email;
   private String sex;
   private String role;
-  private boolean enabled;
-  @OneToMany(mappedBy = "user")
-  private List<EmailVerify> emailVerifyList = new ArrayList<>();
+
   @OneToMany(mappedBy = "user")
   private List<Order> orderList = new ArrayList<>();
 
@@ -46,9 +44,5 @@ public class User implements UserDetails {
     GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+role);
     authorities.add(authority);
     return authorities;
-  }
-
-  public void verify() {
-    this.enabled = true;
   }
 }

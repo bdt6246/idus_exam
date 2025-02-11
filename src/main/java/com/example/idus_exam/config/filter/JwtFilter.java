@@ -16,7 +16,7 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("JwtFilter 실행됐다.");
+        System.out.println("JwtFilter 실행");
         Cookie[] cookies = request.getCookies();
 
         String jwtToken = null;
