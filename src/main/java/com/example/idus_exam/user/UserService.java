@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
 
   @Transactional(readOnly = true)
   public UserDto.UserPageResponse list(int page, int size) {
-    Page<User> result = userRepository.findAll(PageRequest.of(page, size));
+    Page<User> result = userRepository.findAllOrderByOrderDateDesc(PageRequest.of(page, size));
     return UserDto.UserPageResponse.from(result);
   }
 }
