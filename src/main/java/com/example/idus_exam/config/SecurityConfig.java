@@ -3,6 +3,7 @@ package com.example.idus_exam.config;
 import com.example.idus_exam.config.filter.JwtFilter;
 import com.example.idus_exam.config.filter.LoginFilter;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,17 +43,17 @@ public class SecurityConfig {
 //            .requestMatchers("/user/list", "/user/*", "/logout").hasRole("USER")
             .requestMatchers("/user/list", "/user/*", "/logout").permitAll()
             .anyRequest().authenticated());
-    http.logout((logout) -> logout
-        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl("/login")
-        .deleteCookies("JSESSIONID", "remember-me", "ATOKEN")
+
+    http.logout(logout -> logout.logoutUrl("/logout")
+        .logoutSuccessHandler((request, response, authentication) -> {
+          response.setStatus(HttpServletResponse.SC_OK);
+        })
         .invalidateHttpSession(true)
-        .permitAll());
+        .deleteCookies("JSESSIONID", "ATOKEN"));
 
     http.addFilterAt(new LoginFilter(configuration.getAuthenticationManager()), UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
-
 
   }
 }

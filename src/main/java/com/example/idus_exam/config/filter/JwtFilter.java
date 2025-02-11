@@ -18,11 +18,6 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         System.out.println("JwtFilter 실행");
 
-        String path = request.getRequestURI();
-        if(path.equals("/logout")) {
-          filterChain.doFilter(request, response);
-          return;
-        }
         Cookie[] cookies = request.getCookies();
         String jwtToken = null;
         if(cookies != null) {
