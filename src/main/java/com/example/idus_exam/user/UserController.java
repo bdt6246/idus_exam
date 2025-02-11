@@ -24,6 +24,12 @@ public class UserController {
     userService.signup(dto);
   }
 
+  @Operation(summary = "유저 상세 조회")
+  @GetMapping("/{userIdx}")
+  public ResponseEntity<UserDto.UserDetailResponse> detail(@PathVariable Long userIdx) {
+    UserDto.UserDetailResponse response =userService.list(userIdx);
+    return ResponseEntity.ok(response);
+  }
 
 //  @GetMapping("/list")
 //  @Operation(summary = "회원 목록 조회")

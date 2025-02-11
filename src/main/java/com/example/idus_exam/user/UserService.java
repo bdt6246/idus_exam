@@ -42,4 +42,10 @@ public class UserService implements UserDetailsService {
       userRepository.save(user);
     }
   }
+
+  @Transactional(readOnly = true)
+  public UserDto.UserDetailResponse list(Long idx) {
+    Optional<User> user = userRepository.findById(idx);
+    return UserDto.UserDetailResponse.from(user.orElse(null));
+  }
 }
