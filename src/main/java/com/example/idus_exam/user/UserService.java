@@ -31,11 +31,7 @@ public class UserService implements UserDetailsService {
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     Optional<User> result = userRepository.findByUserName(username);
-    if (result.isPresent()) {
-      User user = result.get();
-      return user;
-    }
-    return null;
+    return result.orElse(null);
   }
 
   @Transactional
