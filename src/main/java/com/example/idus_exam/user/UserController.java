@@ -21,14 +21,14 @@ public class UserController {
     userService.signup(dto);
   }
 
-  @Operation(summary = "유저 상세 조회")
+  @Operation(summary = "단일 회원 상세 정보 조회")
   @GetMapping("/{userIdx}")
   public ResponseEntity<UserDto.UserDetailResponse> detail(@PathVariable Long userIdx) {
     UserDto.UserDetailResponse response = userService.detail(userIdx);
     return ResponseEntity.ok(response);
   }
 
-  @Operation(summary = "주문 목록 조회")
+  @Operation(summary = "단일 회원의 주문 목록 조회")
   @GetMapping("/order")
   public ResponseEntity<UserDto.UserOrdersListResponse> ordersList(Long userIdx) {
     UserDto.UserOrdersListResponse response =  userService.ordersList(userIdx);
