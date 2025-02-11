@@ -1,6 +1,7 @@
 package com.example.idus_exam.user.model;
 
 import com.example.idus_exam.emailverify.model.EmailVerify;
+import com.example.idus_exam.order.model.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,8 @@ public class User implements UserDetails {
   private boolean enabled;
   @OneToMany(mappedBy = "user")
   private List<EmailVerify> emailVerifyList = new ArrayList<>();
+  @OneToMany(mappedBy = "user")
+  private List<Order> orderList = new ArrayList<>();
 
   @Override
   public String getUsername() { return userName; }
