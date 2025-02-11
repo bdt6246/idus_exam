@@ -33,6 +33,7 @@ public class SecurityConfig {
     http.csrf(AbstractHttpConfigurer::disable);
     http.httpBasic(AbstractHttpConfigurer::disable);
     http.formLogin(AbstractHttpConfigurer::disable);
+    http.sessionManagement(AbstractHttpConfigurer::disable);
 
     http.authorizeHttpRequests(
         (auth) -> auth
@@ -40,32 +41,18 @@ public class SecurityConfig {
             .requestMatchers("/login", "/user/signup", "/user/verify").permitAll()
 //            .requestMatchers("/user/list", "/user/*", "/logout").hasRole("USER")
             .requestMatchers("/user/list", "/user/*", "/logout").permitAll()
-            .anyRequest().authenticated())
-        .logout((logout) -> logout
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .addLogoutHandler((request, response, authentication) -> {
-              // 세션 무효화
-              if (request.getSession(false) != null) {
-                request.getSession().invalidate();
-              }
-              // 쿠키 삭제
-              Cookie[] cookies = request.getCookies();
-              if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                  cookie.setValue("");
-                  cookie.setPath("/");
-                  cookie.setMaxAge(0);
-                  cookie.setHttpOnly(true);
-                  response.addCookie(cookie);
-                }
-              }
-            })
-            .logoutSuccessHandler((request, response, authentication) -> response.sendRedirect("/login"))
-        );
-    http.sessionManagement(AbstractHttpConfigurer::disable);
+            .anyRequest().authenticated());
+    http.logout((logout) -> logout
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/login")
+        .deleteCookies("JSESSIONID", "remember-me", "ATOKEN")
+        .invalidateHttpSession(true)
+        .permitAll());
 
     http.addFilterAt(new LoginFilter(configuration.getAuthenticationManager()), UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
+
+
   }
 }
