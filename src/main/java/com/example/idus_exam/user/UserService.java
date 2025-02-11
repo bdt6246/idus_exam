@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,9 +58,25 @@ public class UserService implements UserDetailsService {
     return UserDto.UserOrderListResponse.from(user.orElse(null));
   }
 
+//  @Transactional(readOnly = true)
+//  public UserDto.UserPageResponse list(int page, int size) {
+//    Page<User> result = userRepository.findAllOrderByOrderDateDesc(PageRequest.of(page, size));
+//    return UserDto.UserPageResponse.from(result);
+//  }
+
   @Transactional(readOnly = true)
   public UserDto.UserPageResponse list(int page, int size) {
-    Page<User> result = userRepository.findAllOrderByOrderDateDesc(PageRequest.of(page, size));
+    Page<User> result = userRepository.findAll(PageRequest.of(page, size));
     return UserDto.UserPageResponse.from(result);
+  }
+
+  public List<UserDto.UserDetailResponse> searchByName(String userName) {
+    List<UserDto.UserDetailResponse> userList = userRepository.findAllByUserNameContaining(userName);
+    return userList;
+  }
+
+  public List<UserDto.UserDetailResponse> searchByEmail(String email) {
+    List<UserDto.UserDetailResponse> userList = userRepository.findAllByUserEmailContaining(email);
+    return userList;
   }
 }

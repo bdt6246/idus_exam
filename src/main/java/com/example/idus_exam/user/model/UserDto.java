@@ -44,6 +44,7 @@ public class UserDto {
     private Long phone;
     private String email;
     private String sex;
+
     public static UserDetailResponse from(User user) {
       return UserDetailResponse.builder()
           .userName(user.getUsername())
@@ -84,7 +85,7 @@ public class UserDto {
     private int totalPages;
     private boolean hasNext;
     private boolean hasPrevious;
-    public List<UserOrderListResponse> orders;
+    private List<UserDetailResponse> users;
 
     public static UserPageResponse from (Page<User> userPage) {
       return UserPageResponse.builder()
@@ -94,8 +95,36 @@ public class UserDto {
           .totalPages(userPage.getTotalPages())
           .hasNext(userPage.hasNext())
           .hasPrevious(userPage.hasPrevious())
-          .orders(userPage.stream().map(UserOrderListResponse::from).collect(Collectors.toList()))
+          .users(userPage.stream().map(UserDetailResponse::from).collect(Collectors.toList()))
           .build();
     }
   }
+
+//  @Getter
+//  @NoArgsConstructor
+//  @AllArgsConstructor
+//  @Builder
+//  public static class  UserPageResponse{
+//    private int page;
+//    private int size;
+//    private long totalElements;
+//    private int totalPages;
+//    private boolean hasNext;
+//    private boolean hasPrevious;
+//    private List<UserDetailResponse> users;
+//    public List<UserOrderListResponse> orders;
+//
+//    public static UserPageResponse from (Page<User> userPage) {
+//      return UserPageResponse.builder()
+//          .page(userPage.getNumber())
+//          .size(userPage.getSize())
+//          .totalElements(userPage.getTotalElements())
+//          .totalPages(userPage.getTotalPages())
+//          .hasNext(userPage.hasNext())
+//          .hasPrevious(userPage.hasPrevious())
+//          .users(userPage.stream().map(UserDetailResponse::from).collect(Collectors.toList()))
+//          .orders(userPage.stream().map(UserOrderListResponse::from).collect(Collectors.toList()))
+//          .build();
+//    }
+//  }
 }
