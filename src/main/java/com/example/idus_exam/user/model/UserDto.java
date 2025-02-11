@@ -1,6 +1,6 @@
 package com.example.idus_exam.user.model;
 
-import com.example.idus_exam.order.model.OrderDto;
+import com.example.idus_exam.order.model.OrdersDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,16 +60,16 @@ public class UserDto {
   @NoArgsConstructor
   @AllArgsConstructor
   @Builder
-  public static class UserOrderListResponse {
+  public static class UserOrdersListResponse {
     private Long idx;
     private String userName;
-    List<OrderDto.OrderResponse> orders = new ArrayList<>();
+    List<OrdersDto.OrdersResponse> orders = new ArrayList<>();
 
-    public static UserOrderListResponse from (User user){
-      return UserOrderListResponse.builder()
+    public static UserOrdersListResponse from (User user){
+      return UserOrdersListResponse.builder()
           .idx(user.getIdx())
           .userName(user.getUsername())
-          .orders(user.getOrderList().stream().map(OrderDto.OrderResponse::from).collect(Collectors.toList()))
+          .orders(user.getOrdersList().stream().map(OrdersDto.OrdersResponse::from).collect(Collectors.toList()))
           .build();
     }
   }

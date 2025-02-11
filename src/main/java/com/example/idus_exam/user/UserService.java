@@ -1,6 +1,5 @@
 package com.example.idus_exam.user;
 
-import com.example.idus_exam.emailverify.EmailVerifyService;
 import com.example.idus_exam.user.model.User;
 import com.example.idus_exam.user.model.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,16 +42,10 @@ public class UserService implements UserDetailsService {
   }
 
   @Transactional(readOnly = true)
-  public UserDto.UserOrderListResponse orderList(Long userIdx) {
+  public UserDto.UserOrdersListResponse ordersList(Long userIdx) {
     Optional<User> user = userRepository.findById(userIdx);
-    return UserDto.UserOrderListResponse.from(user.orElse(null));
+    return UserDto.UserOrdersListResponse.from(user.orElse(null));
   }
-
-//  @Transactional(readOnly = true)
-//  public UserDto.UserPageResponse list(int page, int size) {
-//    Page<User> result = userRepository.findAllOrderByOrderDateDesc(PageRequest.of(page, size));
-//    return UserDto.UserPageResponse.from(result);
-//  }
 
   @Transactional(readOnly = true)
   public UserDto.UserPageResponse list(int page, int size) {
@@ -59,13 +53,23 @@ public class UserService implements UserDetailsService {
     return UserDto.UserPageResponse.from(result);
   }
 
+  @Transactional(readOnly = true)
   public List<UserDto.UserDetailResponse> searchByName(String userName) {
     List<UserDto.UserDetailResponse> userList = userRepository.findAllByUserNameContaining(userName);
     return userList;
   }
 
+  @Transactional(readOnly = true)
   public List<UserDto.UserDetailResponse> searchByEmail(String email) {
-    List<UserDto.UserDetailResponse> userList = userRepository.findAllByUserEmailContaining(email);
+    List<UserDto.UserDetailResponse> userList = userRepository.findAllByEmailContaining(email);
     return userList;
+  }
+
+  @Transactional(readOnly = true)
+  public List<UserDto.UserOrdersListResponse> lastOrderList() {
+    List<User> users = userRepository.findAllOrderByOrdersDateDesc();
+    return users.stream()
+        .map(UserDto.UserOrdersListResponse::from)
+        .collect(Collectors.toList());
   }
 }

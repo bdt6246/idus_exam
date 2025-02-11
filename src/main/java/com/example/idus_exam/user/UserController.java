@@ -35,12 +35,6 @@ public class UserController {
     return ResponseEntity.ok(response);
   }
 
-//  @GetMapping("/list")
-//  @Operation(summary = "각 회원의 마지막 주문 정보 조회")
-//  public ResponseEntity<UserDto.UserPageResponse> list(int page, int size) {
-//    UserDto.UserPageResponse response = userService.list(page, size);
-//    return ResponseEntity.ok(response);
-//  }
   @GetMapping("/list")
   @Operation(summary = "여러 회원 목록 조회", description = "페이지네이션으로 일정 단위로 조회")
   public ResponseEntity<UserDto.UserPageResponse> list(int page, int size) {
@@ -48,17 +42,24 @@ public class UserController {
     return ResponseEntity.ok(response);
   }
 
-  @GetMapping("/search")
+  @GetMapping("/searchbyname")
   @Operation(summary = "이름을 이용한 검색")
   public ResponseEntity<List<UserDto.UserDetailResponse>> searchByName(String userName){
     List<UserDto.UserDetailResponse> response = userService.searchByName(userName);
     return ResponseEntity.ok(response);
   }
 
-  @GetMapping("/search")
+  @GetMapping("/searchbyemail")
   @Operation(summary = "이메일을 이용한 검색")
   public ResponseEntity<List<UserDto.UserDetailResponse>> searchByEmail(String email){
     List<UserDto.UserDetailResponse> response = userService.searchByEmail(email);
     return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/lastorder")
+  @Operation(summary = "각 회원의 마지막 주문 정보 조회")
+  public ResponseEntity<List<UserDto.UserOrderListResponse>> lastOrderList() {
+    List<UserDto.UserOrderListResponse> responses = userService.lastOrderList();
+    return ResponseEntity.ok(responses);
   }
 }

@@ -1,6 +1,6 @@
 package com.example.idus_exam.user.model;
 
-import com.example.idus_exam.order.model.Order;
+import com.example.idus_exam.order.model.Orders;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +32,7 @@ public class User implements UserDetails {
   private String role;
 
   @OneToMany(mappedBy = "user")
-  private List<Order> orderList = new ArrayList<>();
+  private List<Orders> ordersList = new ArrayList<>();
 
   @Override
   public String getUsername() { return userName; }

@@ -1,4 +1,4 @@
 package com.example.idus_exam.order;
 
-public class OrderController {
+public class OrdersService {
 }

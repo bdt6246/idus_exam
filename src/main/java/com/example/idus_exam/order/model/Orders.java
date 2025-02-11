@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.time.ZonedDateTime;
 
 @Builder
@@ -15,11 +14,11 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Order {
+public class Orders {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idx;
-  private String oderNo;
+  private String orderNo;
   private String productName;
   private ZonedDateTime orderDate;
 
