@@ -3,6 +3,7 @@ package com.example.idus_exam.user;
 import com.example.idus_exam.user.model.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class UserController {
 
   @Operation(summary = "회원 가입")
   @PostMapping("/signup")
-  public void signup(@RequestBody UserDto.SignupRequest dto) {
+  public void signup(@Valid @RequestBody UserDto.SignupRequest dto) {
     userService.signup(dto);
   }
 
