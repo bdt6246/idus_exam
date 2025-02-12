@@ -1,5 +1,6 @@
 package com.example.idus_exam.order.model;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class OrdersDto {
   @Builder
   public static class OrdersResponse {
     private String ordersNo;
+    @Pattern(regexp = "^[\\p{L}\\p{N}\\p{P}\\p{Z}\\p{S}\\p{M}]+$", message = "이모지를 포함한 모든 문자")
     private String productName;
     private LocalDateTime ordersDate;
 
