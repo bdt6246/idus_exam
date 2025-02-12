@@ -39,7 +39,7 @@ public class SwaggerConfig {
 
           // 문서에서 요청 설정
           Schema<?> schema = new ObjectSchema()
-              .addProperty("email", new StringSchema())
+              .addProperty("userName", new StringSchema())
               .addProperty("password", new StringSchema());
           RequestBody requestBody = new RequestBody().content(
               new Content().addMediaType("application/json", new MediaType().schema(schema)));
