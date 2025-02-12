@@ -41,7 +41,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
-        String jwtToken = JwtUtil.generateToken(user.getIdx(), user.getEmail(), user.getNickName(), user.getRole());
+        String jwtToken = JwtUtil.generateToken(user.getIdx(),user.getEmail(), user.getNickName(), user.getRole());
         ResponseCookie cookie = ResponseCookie
                 .from("ATOKEN", jwtToken)
                 .path("/")

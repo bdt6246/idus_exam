@@ -2,13 +2,15 @@ package com.example.idus_exam.user;
 
 import com.example.idus_exam.user.model.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.Collections;
 import java.util.List;
 
+@Tag(name = "회원 기능")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
