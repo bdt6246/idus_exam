@@ -72,21 +72,23 @@ public class UserService implements UserDetailsService {
 
   @Transactional(readOnly = true)
   public List<UserDto.UserOrdersListResponse> lastOrdersList() {
-    return userRepository.findAll().stream()
-        .map(user -> {
-          Orders latestOrder = user.getOrdersList().stream()
-              .max(Comparator.comparing(Orders::getOrderDate))
-              .orElse(null);
+      return userRepository.findUsersWithLatestOrder();
 
-          return latestOrder != null
-              ? UserDto.UserOrdersListResponse.builder()
-              .idx(user.getIdx())
-              .userName(user.getUsername())
-              .orders(Collections.singletonList(OrdersDto.OrdersResponse.from(latestOrder))) // 최신 주문만 리스트로
-              .build()
-              : null;
-        })
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList());
+//    return userRepository.findAll().stream()
+//        .map(user -> {
+//          Orders latestOrder = user.getOrdersList().stream()
+//              .max(Comparator.comparing(Orders::getOrderDate))
+//              .orElse(null);
+//
+//          return latestOrder != null
+//              ? UserDto.UserOrdersListResponse.builder()
+//              .idx(user.getIdx())
+//              .userName(user.getUsername())
+//              .orders(Collections.singletonList(OrdersDto.OrdersResponse.from(latestOrder))) // 최신 주문만 리스트로
+//              .build()
+//              : null;
+//        })
+//        .filter(Objects::nonNull)
+//        .collect(Collectors.toList());
   }
 }

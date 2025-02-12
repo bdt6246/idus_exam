@@ -5,12 +5,12 @@ spring:
 
   datasource:
     master:
-      jdbc-url: jdbc:mariadb://${MASTER_DB}:3306/inflearn
+      jdbc-url: jdbc:mariadb://${MASTER_DB}:3306/web
       driver-class-name: org.mariadb.jdbc.Driver
       username: ${DB_USER}
       password: ${DB_PASSWORD}
     slave:
-      jdbc-url: jdbc:mariadb://${SLAVE_DB}:3306/inflearn
+      jdbc-url: jdbc:mariadb://${SLAVE_DB}:3306/web
       driver-class-name: org.mariadb.jdbc.Driver
       username: ${DB_USER}
       password: ${DB_PASSWORD}
